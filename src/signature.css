@@ -25,7 +25,7 @@
   --sig-mauve: #9a8a9c; --sig-rose: #e8a8bc; --sig-line: #4a424c;
 }
 .dark .sig .sig__replay, .sig.sig--dark .sig__replay { background: var(--sig-rose); color: #2c262f; }
-.sig__save { margin-left: 8px; }
+.sig__actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 /* System preference: dark unless the host forces light (.light ancestor or .sig--light). */
 @media (prefers-color-scheme: dark) {
   .sig:not(.sig--light) {

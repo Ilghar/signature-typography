@@ -16,6 +16,17 @@
   var MAPPED = /^[\u0020-\u007E\u00A0-\u024F\u0300-\u036F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u200C\u200D\u2013\u2014\u2018-\u201D\u2026]+$/;
   function isMapped(g) { return MAPPED.test(g); }
 
+  // Bidi embeddings/overrides/isolates, LRM/RLM/ALM and BOM/ZWNBSP are stripped: they can reorder
+  // or hide what is displayed versus what is stored. ZWNJ/ZWJ are kept (needed for Persian/emoji).
+  var STRIP = /[\u202A-\u202E\u2066-\u2069\u200E\u200F\u061C\uFEFF]/g;
+  function sanitize(str) { return String(str ?? "").replace(STRIP, ""); }
+
+  function clampGraphemes(str, max) { return graphemes(str).slice(0, max).join(""); }
+
+  // RTL only for scripts this component supports (Persian/Arabic); everything else uses the default LTR.
+  var SUPPORTED_RTL = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFC]/;
+  function direction(str) { return SUPPORTED_RTL.test(str) ? "rtl" : "ltr"; }
+
   var DARK = { canvas: "#4a434c", plum: "#f4eef3", rose: "#e8a8bc", mauve: "#9a8a9c" };
 
   function escapeXml(str) {
@@ -26,14 +37,14 @@
 
   // Standalone SVG of the finished (fully drawn) signature. Pure: no DOM needed.
   function exportSVG(text, opts) {
-    opts = opts || {};
+    opts = opts ?? {};
+    text = sanitize(text);
     var t = opts.dark ? DARK : TOKENS;
-    var rtl = /[\u0590-\u08FF\uFB1D-\uFEFC]/.test(text);
     return '<?xml version="1.0" encoding="UTF-8"?>\n' +
       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="800" height="200">' +
       '<title>' + escapeXml(text) + ' — signature, ilghar.studio</title>' +
       '<rect width="800" height="200" fill="' + t.canvas + '"/>' +
-      '<text x="400" y="128" text-anchor="middle" direction="' + (rtl ? "rtl" : "ltr") + '" font-family="Jost, Nunito Sans, sans-serif" font-weight="300" font-size="88" fill="' + t.plum + '" stroke="' + t.rose + '" stroke-width="1.2">' + escapeXml(text) + '</text>' +
+      '<text x="400" y="128" text-anchor="middle" direction="' + direction(text) + '" font-family="Jost, Nunito Sans, sans-serif" font-weight="300" font-size="88" fill="' + t.plum + '" stroke="' + t.rose + '" stroke-width="1.2">' + escapeXml(text) + '</text>' +
       '<line x1="80" x2="720" y1="160" y2="160" stroke="' + t.mauve + '" stroke-dasharray="2 6"/>' +
       '</svg>\n';
   }
@@ -49,19 +60,19 @@
   }
 
   function mountSignature(root, opts) {
-    opts = opts || {};
-    var maxLen = opts.maxLength || 40;
-    var perGlyphMs = opts.perGlyphMs || 140;
+    opts = opts ?? {};
+    var maxLen = opts.maxLength ?? 40;
+    var perGlyphMs = opts.perGlyphMs ?? 140;
     root.classList.add("sig");
     root.innerHTML = "";
 
     var label = document.createElement("label");
     label.className = "sig__label";
-    label.textContent = opts.label || "Write a signature";
+    label.textContent = opts.label ?? "Write a signature";
     var input = document.createElement("input");
     input.className = "sig__input";
     input.type = "text";
-    input.maxLength = maxLen;
+    // maxLength is enforced in graphemes in render(), not UTF-16 units via the attribute.
     input.autocomplete = "off";
     input.spellcheck = false;
     input.id = "sig-" + Math.random().toString(36).slice(2, 8);
@@ -108,16 +119,20 @@
     if (opts.dark === true) root.classList.add("sig--dark");
     if (opts.dark === false) root.classList.add("sig--light");
 
-    root.appendChild(replay); root.appendChild(save); root.appendChild(live);
+    var actions = document.createElement("div");
+    actions.className = "sig__actions";
+    actions.appendChild(replay); actions.appendChild(save);
+    root.appendChild(actions); root.appendChild(live);
 
     var composing = false, timer = null;
 
     function render(animate) {
-      var value = input.value;
-      var parts = graphemes(value).slice(0, maxLen);
+      var clean = clampGraphemes(sanitize(input.value), maxLen);
+      if (clean !== input.value) input.value = clean;
+      var value = clean;
+      var parts = graphemes(value);
       while (textEl.firstChild) textEl.removeChild(textEl.firstChild);
-      var rtl = /[\u0590-\u08FF\uFB1D-\uFEFC]/.test(value);
-      textEl.setAttribute("direction", rtl ? "rtl" : "ltr");
+      textEl.setAttribute("direction", direction(value));
       var unmapped = 0;
       parts.forEach(function (g, i) {
         var t = document.createElementNS(NS, "tspan");
@@ -138,11 +153,11 @@
     input.addEventListener("input", function () { if (!composing) render(true); });
     replay.addEventListener("click", function () { render(true); });
 
-    input.value = opts.text || "";
+    input.value = opts.text ?? "";
     render(true);
     return { input: input, svg: svg, render: render, tokens: TOKENS, exportSVG: function () { return exportSVG(input.value, { dark: isDark(root) }); } };
   }
 
   global.mountSignature = mountSignature;
-  if (typeof module !== "undefined") module.exports = { mountSignature: mountSignature, graphemes: graphemes, isMapped: isMapped, exportSVG: exportSVG, TOKENS: TOKENS, DARK: DARK };
+  if (typeof module !== "undefined") module.exports = { mountSignature: mountSignature, graphemes: graphemes, isMapped: isMapped, exportSVG: exportSVG, sanitize: sanitize, clampGraphemes: clampGraphemes, direction: direction, TOKENS: TOKENS, DARK: DARK };
 })(typeof window !== "undefined" ? window : globalThis);
