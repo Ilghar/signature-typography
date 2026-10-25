@@ -26,6 +26,9 @@ def check(root=None):
     for k, v in DARK.items():
         if dark.get(k, "").strip().lower() != v: errs.append(f"dark token --sig-{k} != {v}")
     if not re.search(r"@media\s*\(prefers-color-scheme:\s*dark\)", css): errs.append("no prefers-color-scheme rule")
+    sysdark = props(block(css, ".sig:not(.sig--light)"))
+    for k, v in DARK.items():
+        if sysdark.get(k, "").strip().lower() != v: errs.append(f"system-dark token --sig-{k} != {v}")
     rm = re.search(r"@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[^{]*\{([^}]*)\}", css)
     if not rm or "animation: none" not in rm.group(1): errs.append("reduced-motion rule does not disable animation")
     if "prefersReducedMotion()" not in js: errs.append("JS does not consult reduced-motion")

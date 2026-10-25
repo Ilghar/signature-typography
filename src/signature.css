@@ -39,3 +39,14 @@
   }
   .light .sig .sig__replay { background: var(--sig-plum); color: var(--sig-canvas); }
 }
+/* Explicit { dark: true/false } wins over any .dark/.light ancestor and the system setting (matches the SVG export). */
+.sig.sig--light, .dark .sig.sig--light {
+  --sig-canvas: #f3f1f6; --sig-surface: #fffcfe; --sig-plum: #4a3a5c; --sig-muted: #7a688c;
+  --sig-mauve: #a394ae; --sig-rose: #c97a98; --sig-line: #e4dde8;
+}
+.dark .sig.sig--light .sig__replay { background: var(--sig-plum); color: var(--sig-canvas); }
+.light .sig.sig--dark {
+  --sig-canvas: #4a434c; --sig-surface: #5a535c; --sig-plum: #f4eef3; --sig-muted: #cbbdce;
+  --sig-mauve: #9a8a9c; --sig-rose: #e8a8bc; --sig-line: #4a424c;
+}
+.light .sig.sig--dark .sig__replay { background: var(--sig-rose); color: #2c262f; }

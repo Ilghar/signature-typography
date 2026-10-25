@@ -8,7 +8,7 @@ An animated signature you can actually type into. As you write, each letter is t
 - **A real text field.** Typing, pasting, backspace, mobile keyboards and IME composition (Persian, CJK) all work. The animation follows the field and never replaces it.
 - **Grapheme-aware.** Text is split with `Intl.Segmenter`, so emoji, combining marks and Persian ZWNJ are never broken apart.
 - **Visible fallback for unmapped glyphs.** Characters outside the mapped set (Latin, digits, punctuation, Persian/Arabic) are kept and drawn in a muted, dashed fallback style. `data-unmapped` gives the count, and the live region announces it.
-- **Light and dark themes.** It follows `prefers-color-scheme` by default. A `.dark` or `.light` ancestor overrides it, as does `{ dark: true/false }`, and it uses the studio `.dark` tokens. The case page has an accessible toggle (`aria-pressed`) that saves the choice in `localStorage` (`ilghar-theme`) and applies it before first paint, so there is no flash of the wrong theme.
+- **Light and dark themes.** It follows `prefers-color-scheme` by default. A `.dark` or `.light` ancestor overrides it, and `{ dark: true/false }` overrides both; it uses the studio `.dark` tokens. The on-screen theme and the exported SVG follow the same order. The case page has an accessible toggle (`aria-pressed`) that saves the choice in `localStorage` (`ilghar-theme`) and applies it before first paint, so there is no flash of the wrong theme.
 - **Contrast-tested.** `tests/test_contrast.py` checks WCAG AA for text and buttons in both themes. The mauve token (2.5:1 on canvas) is used only for decoration, never for text.
 - **SVG export.** "Download SVG" saves a standalone SVG of the finished signature in the current theme. The text is XML-escaped and no network is used. `handle.exportSVG()` returns the SVG string.
 - **RTL-aware.** Persian/Arabic text switches the SVG direction.
@@ -21,7 +21,8 @@ The "drawing" is an outline trace of **font strokes**: the Jost (or fallback) gl
 
 ## Input safety
 - Bidi embeddings, overrides and isolates (U+202A–202E, U+2066–2069), LRM/RLM/ALM and U+FEFF are stripped before rendering and export. ZWNJ and ZWJ are kept.
-- `maxLength` counts graphemes, not UTF-16 units, so an emoji or a Persian word is never cut in half.
+- Characters XML 1.0 forbids (C0 controls other than tab/LF/CR, DEL, U+FFFE, U+FFFF) are stripped too, so the exported SVG is always well-formed.
+- `maxLength` counts graphemes, not UTF-16 units, so an emoji or a Persian word is never cut in half. A negative, `NaN` or non-numeric `maxLength` is ignored (no limit) rather than dropping characters.
 - RTL is used only for the Persian/Arabic scripts the component supports. Unsupported scripts (for example Hebrew) get the default LTR direction and the fallback style.
 
 ## How it works
@@ -44,8 +45,8 @@ Options (defaults apply only when the option is `null` or `undefined`): `text`, 
 ## Run and check
 - Demo: open `index.html`. Case page: `site/index.html`. State: `handoff/STATE.json`.
 - Palette checked against `Ilghar/ilghar-studio` `src/styles.css` (canvas, surface, ink, muted, subtle, accent, line, ease-out, and the `.dark` set).
-- `python3 validate.py` parses the CSS custom properties per theme block and checks the label/input link, the live region, the hidden SVG, IME handling, that there are no network or eval calls, no unsafe `innerHTML`, `??` option defaults, grapheme maxLength, the site toggle, the state file, this honesty note and the credit wording. `tests/test_validate.py` breaks each rule in a copy and confirms the validator catches it.
-- `python3 -m unittest discover tests` and `node tests/graphemes.test.js && node tests/export.test.js && node tests/input.test.js` run the tests.
+- `python3 validate.py` parses the CSS custom properties per theme block (light, `.dark`, and the `prefers-color-scheme: dark` block) and checks the label/input link, the live region, the hidden SVG, IME handling, that there are no network or eval calls, no unsafe `innerHTML`, `??` option defaults, grapheme maxLength, the site toggle, the state file, this honesty note and the credit wording. `tests/test_validate.py` breaks each rule in a copy and confirms the validator catches it.
+- `python3 -m unittest discover tests` and `node tests/graphemes.test.js && node tests/export.test.js && node tests/input.test.js && node tests/hardening.test.js` run the tests.
 
 ## Rights
 Everything here is original code. Nothing is copied from the earlier `Signature-animation` repository, which has no license. Type is set in Jost (SIL OFL 1.1), loaded by the host site. No font files are bundled.
