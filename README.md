@@ -7,6 +7,7 @@ An animated signature you can actually type into. As you write, each letter is t
 ## What it does
 - **A real text field.** Typing, pasting, backspace, mobile keyboards and IME composition (Persian, CJK) all work. The animation follows the field and never replaces it.
 - **Grapheme-aware.** Text is split with `Intl.Segmenter`, so emoji, combining marks and Persian ZWNJ are never broken apart.
+- **Visible fallback for unmapped glyphs.** Characters outside the mapped set (Latin, digits, punctuation, Persian/Arabic) are kept and drawn in a mauve, dashed fallback style. `data-unmapped` gives the count, and the live region announces it.
 - **RTL-aware.** Right-to-left text switches the SVG direction.
 - **Accessible.** The input has a label, the SVG is `aria-hidden`, a polite live region announces the signature once typing settles, and focus rings are visible.
 - **Reduced motion.** With `prefers-reduced-motion`, the signature appears instantly with no animation.
@@ -30,7 +31,8 @@ export function Signature() {
 Options: `text`, `label`, `maxLength` (default 40), `perGlyphMs` (default 140).
 
 ## Run and check
-- Demo: open `index.html`.
+- Demo: open `index.html`. Case page: `site/index.html`. State: `handoff/STATE.json`.
+- Palette checked against `Ilghar/ilghar-studio` `src/styles.css` (canvas, surface, ink, muted, subtle, accent, line, ease-out).
 - `python3 validate.py` checks the palette tokens, the accessibility hooks, that there are no network calls, and the credit wording.
 - `python3 -m unittest discover tests` and `node tests/graphemes.test.js` run the tests.
 

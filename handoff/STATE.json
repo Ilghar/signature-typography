@@ -1,0 +1,13 @@
+{
+  "project": "interactive-signature-typography",
+  "repo": "Ilghar/signature-typography",
+  "visibility": "private",
+  "creator": "ilghar.studio",
+  "status": "first_slice",
+  "updated": "2026-10-25T14:10+01:00",
+  "palette_verified_against": "Ilghar/ilghar-studio@39bc2b1706eb5d91e6428f5faa54cbb2fc3125d9 src/styles.css",
+  "done": ["native input incl. paste/IME", "grapheme split", "RTL direction", "unmapped-glyph visible fallback", "reduced-motion fallback", "live-region announcement", "site/ case page", "stdlib validator + tests"],
+  "not_done": ["owned SVG letter bank", "pen pressure", "SVG/PNG export", "real-device browser tests", "layout-shift measurement", "dark-mode tokens"],
+  "tests": {"python_unittest": "pass", "node_graphemes": "pass"},
+  "constraints": ["private", "no backend", "no copied upstream artwork", "no force push"]
+}

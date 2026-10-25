@@ -1,7 +1,7 @@
 """Stdlib validator: tokens, accessibility hooks, no network/backend, credit hygiene."""
 import pathlib, re, sys
 ROOT = pathlib.Path(__file__).parent
-TOKENS = ["#f3f1f6", "#4a3a5c", "#c97a98", "#a394ae"]
+TOKENS = ["#fffcfe", "#e4dde8", "#7a688c", "#f3f1f6", "#4a3a5c", "#c97a98", "#a394ae"]
 
 def check():
     errs = []
@@ -14,6 +14,11 @@ def check():
         if hook not in js: errs.append(f"missing hook {hook}")
     if re.search(r"\b(fetch|XMLHttpRequest|WebSocket|eval)\s*\(", js): errs.append("network/eval call in js")
     if "innerHTML = \"\"" not in js and "innerHTML" in js: errs.append("innerHTML used with content")
+    if "sig__glyph--unmapped" not in css or "isMapped" not in js: errs.append("unmapped-glyph fallback missing")
+    if not (ROOT / "site/index.html").exists(): errs.append("site/index.html missing")
+    import json
+    st = json.loads((ROOT / "handoff/STATE.json").read_text(encoding="utf-8"))
+    if st.get("visibility") != "private" or st.get("creator") != "ilghar.studio": errs.append("STATE.json visibility/creator wrong")
     for p in ROOT.rglob("*"):
         if p.suffix in {".js", ".css", ".html", ".md"} and "tests" not in p.parts:
             txt = p.read_text(encoding="utf-8")

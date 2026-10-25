@@ -12,6 +12,10 @@
     return Array.from(str);
   }
 
+  // Mapped repertoire: Latin (incl. accents), digits, common punctuation, Persian/Arabic, ZWNJ/ZWJ, space.
+  var MAPPED = /^[\u0020-\u007E\u00A0-\u024F\u0300-\u036F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u200C\u200D\u2013\u2014\u2018-\u201D\u2026]+$/;
+  function isMapped(g) { return MAPPED.test(g); }
+
   function prefersReducedMotion() {
     return !!(global.matchMedia && global.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }
@@ -71,15 +75,19 @@
       while (textEl.firstChild) textEl.removeChild(textEl.firstChild);
       var rtl = /[\u0590-\u08FF\uFB1D-\uFEFC]/.test(value);
       textEl.setAttribute("direction", rtl ? "rtl" : "ltr");
+      var unmapped = 0;
       parts.forEach(function (g, i) {
         var t = document.createElementNS(NS, "tspan");
-        t.textContent = g;
-        t.setAttribute("class", "sig__glyph" + (animate && !prefersReducedMotion() ? " is-drawing" : ""));
+        t.textContent = g; // original character is always preserved
+        var mapped = isMapped(g);
+        if (!mapped) unmapped++;
+        t.setAttribute("class", "sig__glyph" + (mapped ? "" : " sig__glyph--unmapped") + (animate && !prefersReducedMotion() ? " is-drawing" : ""));
         t.style.animationDelay = (i * perGlyphMs) + "ms";
         textEl.appendChild(t);
       });
       clearTimeout(timer);
-      timer = setTimeout(function () { live.textContent = value ? "Signature: " + value : ""; }, 400);
+      root.setAttribute("data-unmapped", String(unmapped));
+      timer = setTimeout(function () { live.textContent = value ? "Signature: " + value + (unmapped ? " (" + unmapped + " character" + (unmapped > 1 ? "s" : "") + " shown in fallback style)" : "") : ""; }, 400);
     }
 
     input.addEventListener("compositionstart", function () { composing = true; });
@@ -93,5 +101,5 @@
   }
 
   global.mountSignature = mountSignature;
-  if (typeof module !== "undefined") module.exports = { mountSignature: mountSignature, graphemes: graphemes };
+  if (typeof module !== "undefined") module.exports = { mountSignature: mountSignature, graphemes: graphemes, isMapped: isMapped };
 })(typeof window !== "undefined" ? window : globalThis);
