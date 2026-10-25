@@ -1,0 +1,13 @@
+const assert = require("assert");
+const { exportSVG, TOKENS, DARK } = require("../src/signature.js");
+const light = exportSVG("ilghar.studio");
+assert.ok(light.startsWith("<?xml") && light.includes('xmlns="http://www.w3.org/2000/svg"'));
+assert.ok(light.includes(">ilghar.studio</text>"));
+assert.ok(light.includes(TOKENS.canvas) && light.includes(TOKENS.plum) && light.includes(TOKENS.rose));
+const dark = exportSVG("ilghar.studio", { dark: true });
+assert.ok(dark.includes(DARK.canvas) && dark.includes(DARK.plum) && !dark.includes(TOKENS.canvas));
+const evil = exportSVG('<script>alert(1)</script>&"');
+assert.ok(!evil.includes("<script>") && evil.includes("&lt;script&gt;") && evil.includes("&amp;&quot;"));
+const fa = exportSVG("می‌خواهم");
+assert.ok(fa.includes('direction="rtl"') && fa.includes("می‌خواهم"), "RTL + ZWNJ preserved");
+console.log("export OK");

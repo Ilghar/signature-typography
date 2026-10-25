@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>(function(){try{var m=localStorage.getItem("ilghar-theme");}catch(e){}var d=m?m==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.add(d?"dark":"light");})();</script>
+<meta name="color-scheme" content="light dark">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Signature typography — case — ilghar.studio</title>
 <link rel="stylesheet" href="../src/signature.css">
@@ -10,11 +12,16 @@ body{margin:0;background:var(--canvas);color:var(--ink);font-family:Jost,"Avenir
 main{max-width:760px;margin:0 auto;padding:64px 24px}
 h1{font-family:"Nunito Sans",Jost,sans-serif;font-weight:700;font-size:2.5rem;margin:0 0 8px}
 h2{font-weight:500;font-size:1.25rem;margin-top:48px;border-top:1px solid var(--line);padding-top:24px}
-.kicker{color:var(--subtle);text-transform:uppercase;letter-spacing:.12em;font-size:.8rem}
-.muted{color:var(--muted)} ol li,ul li{margin:6px 0}
+.kicker{color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-size:.8rem}
+.dark{--canvas:#4a434c;--surface:#5a535c;--ink:#f4eef3;--muted:#cbbdce;--subtle:#9a8a9c;--accent:#e8a8bc;--line:#4a424c}
+.theme-toggle{position:fixed;top:16px;right:16px;font:inherit;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.muted{color:var(--ink);opacity:.86} ol li,ul li{margin:6px 0}
 </style>
 </head>
-<body><main>
+<body>
+<button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">Dark mode</button>
+<main>
 <p class="kicker">ilghar.studio · case study</p>
 <h1>Signature typography</h1>
 <p class="muted">A signature you can type into. Each letter is traced by a rose pen and then settles into plum ink. Underneath, the real text field stays intact, so it works with keyboards, paste, IME and screen readers.</p>
@@ -25,17 +32,23 @@ h2{font-weight:500;font-size:1.25rem;margin-top:48px;border-top:1px solid var(--
 <ol>
 <li><strong>Input:</strong> a labelled native field. IME composition is respected, so nothing renders mid-composition.</li>
 <li><strong>Grapheme split:</strong> <code>Intl.Segmenter</code> keeps emoji, accents and Persian ZWNJ whole.</li>
-<li><strong>Glyph mapping:</strong> Latin, digits, punctuation and Persian/Arabic are mapped. Anything else is kept and shown in a visible mauve, dashed fallback style, and the count is announced.</li>
+<li><strong>Glyph mapping:</strong> Latin, digits, punctuation and Persian/Arabic are mapped. Anything else is kept and shown in a visible muted, dashed fallback style, and the count is announced.</li>
 <li><strong>Animation:</strong> a stroke-dash trace, then a fill, staggered per glyph. With <code>prefers-reduced-motion</code> the signature appears instantly.</li>
 <li><strong>Announcement:</strong> a polite live region reads the settled signature. The SVG is decorative and hidden from screen readers.</li>
+<li><strong>Themes and export:</strong> light and dark follow your system or the toggle (top right), and “Download SVG” saves the finished signature in the current theme.</li>
 </ol>
 <p class="muted">Try “ilghar.studio”, “ایلقار” or “漢字 😀” to see the fallback.</p>
 <h2>Rights</h2>
 <p>All code is original. The type is Jost and Nunito Sans (SIL OFL 1.1), loaded by the host site, and no fonts or artwork are bundled.</p>
 <h2>Next</h2>
-<ul><li>A hand-drawn SVG letter bank owned by ilghar.studio</li><li>Pen pressure and SVG/PNG export</li><li>Device tests for paste, IME and mobile, plus layout-shift measurement</li></ul>
+<ul><li>A hand-drawn SVG letter bank owned by ilghar.studio</li><li>Pen pressure and PNG export</li><li>Device tests for paste, IME and mobile, plus layout-shift measurement</li></ul>
 <p class="kicker">ilghar.studio</p>
 </main>
 <script src="../src/signature.js"></script>
+<script>
+(function(){var b=document.getElementById("theme-toggle"),r=document.documentElement;
+function sync(){var d=r.classList.contains("dark");b.setAttribute("aria-pressed",String(d));b.textContent=d?"Light mode":"Dark mode";b.setAttribute("aria-label",d?"Switch to light mode":"Switch to dark mode");}
+b.addEventListener("click",function(){var d=!r.classList.contains("dark");r.classList.toggle("dark",d);r.classList.toggle("light",!d);try{localStorage.setItem("ilghar-theme",d?"dark":"light");}catch(e){}sync();});sync();})();
+</script>
 <script>mountSignature(document.getElementById("demo"), { text: "ilghar.studio" });</script>
 </body></html>

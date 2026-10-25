@@ -6,8 +6,41 @@
   "status": "first_slice",
   "updated": "2026-10-25T14:10+01:00",
   "palette_verified_against": "Ilghar/ilghar-studio@39bc2b1706eb5d91e6428f5faa54cbb2fc3125d9 src/styles.css",
-  "done": ["native input incl. paste/IME", "grapheme split", "RTL direction", "unmapped-glyph visible fallback", "reduced-motion fallback", "live-region announcement", "site/ case page", "stdlib validator + tests"],
-  "not_done": ["owned SVG letter bank", "pen pressure", "SVG/PNG export", "real-device browser tests", "layout-shift measurement", "dark-mode tokens"],
-  "tests": {"python_unittest": "pass", "node_graphemes": "pass"},
-  "constraints": ["private", "no backend", "no copied upstream artwork", "no force push"]
+  "done": [
+    "native input incl. paste/IME",
+    "grapheme split",
+    "RTL direction",
+    "unmapped-glyph visible fallback",
+    "reduced-motion fallback",
+    "live-region announcement",
+    "site/ case page",
+    "stdlib validator + tests",
+    "studio .dark theme tokens",
+    "SVG export",
+    "prefers-color-scheme + persisted accessible theme toggle (site)",
+    "WCAG contrast test (both themes)"
+  ],
+  "not_done": [
+    "owned SVG letter bank",
+    "pen pressure",
+    "real-device browser tests",
+    "layout-shift measurement",
+    "PNG export"
+  ],
+  "tests": {
+    "python_unittest": "pass",
+    "node_graphemes": "pass",
+    "node_export": "pass",
+    "python_contrast": "pass"
+  },
+  "constraints": [
+    "private",
+    "no backend",
+    "no copied upstream artwork",
+    "no force push"
+  ],
+  "findings": [
+    "mauve #a394ae is 2.53:1 on light canvas and #9a8a9c is 2.95:1 on dark canvas, so they are decoration only. The label and fallback glyph moved to plum/muted.",
+    "light muted #7a688c is 4.47:1, just under AA 4.5 for small text, so it is used only for large or secondary text"
+  ]
 }

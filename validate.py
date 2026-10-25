@@ -15,6 +15,10 @@ def check():
     if re.search(r"\b(fetch|XMLHttpRequest|WebSocket|eval)\s*\(", js): errs.append("network/eval call in js")
     if "innerHTML = \"\"" not in js and "innerHTML" in js: errs.append("innerHTML used with content")
     if "sig__glyph--unmapped" not in css or "isMapped" not in js: errs.append("unmapped-glyph fallback missing")
+    for t in ["#4a434c", "#5a535c", "#f4eef3", "#cbbdce", "#9a8a9c", "#e8a8bc", "#4a424c"]:
+        if t not in css: errs.append(f"missing dark token {t}")
+    if ".dark .sig" not in css: errs.append("dark theme selector missing")
+    if "exportSVG" not in js: errs.append("SVG export missing")
     if not (ROOT / "site/index.html").exists(): errs.append("site/index.html missing")
     import json
     st = json.loads((ROOT / "handoff/STATE.json").read_text(encoding="utf-8"))

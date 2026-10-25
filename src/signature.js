@@ -16,6 +16,34 @@
   var MAPPED = /^[\u0020-\u007E\u00A0-\u024F\u0300-\u036F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u200C\u200D\u2013\u2014\u2018-\u201D\u2026]+$/;
   function isMapped(g) { return MAPPED.test(g); }
 
+  var DARK = { canvas: "#4a434c", plum: "#f4eef3", rose: "#e8a8bc", mauve: "#9a8a9c" };
+
+  function escapeXml(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&apos;" }[c];
+    });
+  }
+
+  // Standalone SVG of the finished (fully drawn) signature. Pure: no DOM needed.
+  function exportSVG(text, opts) {
+    opts = opts || {};
+    var t = opts.dark ? DARK : TOKENS;
+    var rtl = /[\u0590-\u08FF\uFB1D-\uFEFC]/.test(text);
+    return '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="800" height="200">' +
+      '<title>' + escapeXml(text) + ' — signature, ilghar.studio</title>' +
+      '<rect width="800" height="200" fill="' + t.canvas + '"/>' +
+      '<text x="400" y="128" text-anchor="middle" direction="' + (rtl ? "rtl" : "ltr") + '" font-family="Jost, Nunito Sans, sans-serif" font-weight="300" font-size="88" fill="' + t.plum + '" stroke="' + t.rose + '" stroke-width="1.2">' + escapeXml(text) + '</text>' +
+      '<line x1="80" x2="720" y1="160" y2="160" stroke="' + t.mauve + '" stroke-dasharray="2 6"/>' +
+      '</svg>\n';
+  }
+
+  function isDark(root) {
+    if (root.classList.contains("sig--light") || (root.closest && root.closest(".light"))) return false;
+    if (root.classList.contains("sig--dark") || (root.closest && root.closest(".dark"))) return true;
+    return !!(global.matchMedia && global.matchMedia("(prefers-color-scheme: dark)").matches);
+  }
+
   function prefersReducedMotion() {
     return !!(global.matchMedia && global.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }
@@ -65,7 +93,22 @@
     replay.textContent = "Replay";
 
     root.appendChild(label); root.appendChild(input); root.appendChild(svg);
-    root.appendChild(replay); root.appendChild(live);
+    var save = document.createElement("button");
+    save.type = "button";
+    save.className = "sig__replay sig__save";
+    save.textContent = "Download SVG";
+    save.addEventListener("click", function () {
+      var blob = new Blob([exportSVG(input.value, { dark: isDark(root) })], { type: "image/svg+xml" });
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "signature.svg";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    });
+    if (opts.dark === true) root.classList.add("sig--dark");
+    if (opts.dark === false) root.classList.add("sig--light");
+
+    root.appendChild(replay); root.appendChild(save); root.appendChild(live);
 
     var composing = false, timer = null;
 
@@ -97,9 +140,9 @@
 
     input.value = opts.text || "";
     render(true);
-    return { input: input, svg: svg, render: render, tokens: TOKENS };
+    return { input: input, svg: svg, render: render, tokens: TOKENS, exportSVG: function () { return exportSVG(input.value, { dark: isDark(root) }); } };
   }
 
   global.mountSignature = mountSignature;
-  if (typeof module !== "undefined") module.exports = { mountSignature: mountSignature, graphemes: graphemes, isMapped: isMapped };
+  if (typeof module !== "undefined") module.exports = { mountSignature: mountSignature, graphemes: graphemes, isMapped: isMapped, exportSVG: exportSVG, TOKENS: TOKENS, DARK: DARK };
 })(typeof window !== "undefined" ? window : globalThis);
