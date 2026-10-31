@@ -1,12 +1,12 @@
 # Signature typography
 
-An animated signature you can actually type into. As you write, each letter is traced in rose and then filled in plum on the ilghar.studio canvas, as if it were being drawn by hand.
+A signature field you type into. Each letter is traced in rose, then filled in plum on the ilghar.studio canvas.
 
 **Creator:** ilghar.studio
 
 ## What it does
 - **A real text field.** Typing, pasting, backspace, mobile keyboards and IME composition (Persian, CJK) all work. The animation follows the field and never replaces it.
-- **Grapheme-aware.** Text is split with `Intl.Segmenter`, so emoji, combining marks and Persian ZWNJ are never broken apart.
+- **Keeps characters whole.** `Intl.Segmenter` splits the text, so emoji, combining marks and Persian ZWNJ stay intact.
 - **Visible fallback for unmapped glyphs.** Characters outside the mapped set (Latin, digits, punctuation, Persian/Arabic) are kept and drawn in a muted, dashed fallback style. `data-unmapped` gives the count, and the live region announces it.
 - **Light and dark themes.** It follows `prefers-color-scheme` by default. A `.dark` or `.light` ancestor overrides it, and `{ dark: true/false }` overrides both; it uses the studio `.dark` tokens. The on-screen theme and the exported SVG follow the same order. The case page has an accessible toggle (`aria-pressed`) that saves the choice in `localStorage` (`ilghar-theme`) and applies it before first paint, so there is no flash of the wrong theme.
 - **Contrast-tested.** `tests/test_contrast.py` checks WCAG AA for text and buttons in both themes. The mauve token (2.5:1 on canvas) is used only for decoration, never for text.
