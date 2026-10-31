@@ -11,7 +11,7 @@
 .sig__input:focus-visible, .sig__replay:focus-visible { outline: 2px solid var(--sig-rose); outline-offset: 2px; }
 .sig__svg { width: 100%; height: auto; display: block; }
 .sig__text { font-family: inherit; font-weight: 300; font-size: 88px; fill: var(--sig-plum); stroke: var(--sig-rose); stroke-width: 1.2; }
-.sig__rule { stroke: var(--sig-mauve); stroke-width: 1; stroke-dasharray: 2 6; }
+.sig__rule { stroke: var(--sig-mauve); stroke-width: 1.5; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
 .sig__glyph.is-drawing { fill-opacity: 0; stroke-dasharray: 400; stroke-dashoffset: 400; animation: sig-draw 900ms var(--sig-ease) forwards; }
 @keyframes sig-draw { 60% { fill-opacity: 0; stroke-dashoffset: 0; } 100% { fill-opacity: 1; stroke-dashoffset: 0; } }
 .sig__replay { justify-self: start; font: inherit; padding: 8px 18px; border-radius: 999px; border: 0; background: var(--sig-plum); color: var(--sig-canvas); cursor: pointer; }
@@ -22,20 +22,31 @@
 /* Dark theme: mirrors the studio's .dark tokens. Applies under any .dark ancestor, or with .sig--dark / { dark: true }. */
 .dark .sig, .sig.sig--dark {
   --sig-canvas: #4a434c; --sig-surface: #5a535c; --sig-plum: #f4eef3; --sig-muted: #cbbdce;
-  --sig-mauve: #9a8a9c; --sig-rose: #e8a8bc; --sig-line: #4a424c;
+  --sig-mauve: #cbbdce; --sig-rose: #e8a8bc; --sig-line: #cbbdce; --sig-on-accent: #4a434c;
 }
-.dark .sig .sig__replay, .sig.sig--dark .sig__replay { background: var(--sig-rose); color: #2c262f; }
+.dark .sig .sig__replay, .sig.sig--dark .sig__replay { background: var(--sig-rose); color: var(--sig-on-accent); }
 .sig__actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 /* System preference: dark unless the host forces light (.light ancestor or .sig--light). */
 @media (prefers-color-scheme: dark) {
   .sig:not(.sig--light) {
     --sig-canvas: #4a434c; --sig-surface: #5a535c; --sig-plum: #f4eef3; --sig-muted: #cbbdce;
-    --sig-mauve: #9a8a9c; --sig-rose: #e8a8bc; --sig-line: #4a424c;
+    --sig-mauve: #cbbdce; --sig-rose: #e8a8bc; --sig-line: #cbbdce; --sig-on-accent: #4a434c;
   }
-  .sig:not(.sig--light) .sig__replay { background: var(--sig-rose); color: #2c262f; }
+  .sig:not(.sig--light) .sig__replay { background: var(--sig-rose); color: var(--sig-on-accent); }
   .light .sig {
     --sig-canvas: #f3f1f6; --sig-surface: #fffcfe; --sig-plum: #4a3a5c; --sig-muted: #7a688c;
     --sig-mauve: #a394ae; --sig-rose: #c97a98; --sig-line: #e4dde8;
   }
   .light .sig .sig__replay { background: var(--sig-plum); color: var(--sig-canvas); }
 }
+/* Explicit { dark: true/false } wins over any .dark/.light ancestor and the system setting (matches the SVG export). */
+.sig.sig--light, .dark .sig.sig--light {
+  --sig-canvas: #f3f1f6; --sig-surface: #fffcfe; --sig-plum: #4a3a5c; --sig-muted: #7a688c;
+  --sig-mauve: #a394ae; --sig-rose: #c97a98; --sig-line: #e4dde8;
+}
+.dark .sig.sig--light .sig__replay { background: var(--sig-plum); color: var(--sig-canvas); }
+.light .sig.sig--dark {
+  --sig-canvas: #4a434c; --sig-surface: #5a535c; --sig-plum: #f4eef3; --sig-muted: #cbbdce;
+  --sig-mauve: #cbbdce; --sig-rose: #e8a8bc; --sig-line: #cbbdce; --sig-on-accent: #4a434c;
+}
+.light .sig.sig--dark .sig__replay { background: var(--sig-rose); color: var(--sig-on-accent); }

@@ -7,7 +7,7 @@ def lum(h):
 def ratio(a,b):
     la,lb=sorted([lum(a),lum(b)],reverse=True); return (la+0.05)/(lb+0.05)
 LIGHT={"canvas":"#f3f1f6","surface":"#fffcfe","ink":"#4a3a5c","muted":"#7a688c","accent":"#c97a98","subtle":"#a394ae"}
-DARK={"canvas":"#4a434c","surface":"#5a535c","ink":"#f4eef3","muted":"#cbbdce","accent":"#e8a8bc","subtle":"#9a8a9c","accent_fg":"#2c262f"}
+DARK={"canvas":"#4a434c","surface":"#5a535c","ink":"#f4eef3","muted":"#cbbdce","accent":"#e8a8bc","subtle":"#cbbdce","accent_fg":"#4a434c"}
 CSS = (pathlib.Path(__file__).resolve().parents[1] / "src/signature.css").read_text(encoding="utf-8")
 class Contrast(unittest.TestCase):
     def test_body_text_aa(self):
@@ -15,6 +15,7 @@ class Contrast(unittest.TestCase):
             self.assertGreaterEqual(ratio(t["ink"],t["canvas"]),4.5)
             self.assertGreaterEqual(ratio(t["ink"],t["surface"]),4.5)
             self.assertGreaterEqual(ratio(t["muted"],t["canvas"]),3.0)
+        self.assertGreaterEqual(ratio(DARK["subtle"],DARK["canvas"]),3.0)  # dark divider/rule visible
     def test_buttons_aa(self):
         self.assertGreaterEqual(ratio(LIGHT["canvas"],LIGHT["ink"]),4.5)   # light buttons
         self.assertGreaterEqual(ratio(DARK["accent_fg"],DARK["accent"]),4.5)  # dark buttons
