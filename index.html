@@ -15,7 +15,7 @@ body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--
 </style>
 </head>
 <body>
-<button id="theme-toggle" type="button" aria-label="Switch light or dark theme">light / dark</button>
+<button id="theme-toggle" type="button" aria-pressed="false" aria-label="Dark theme off">light / dark</button>
 <main>
   <h1 style="font-weight:400">Signature typography</h1>
   <div id="signature"></div>
@@ -28,11 +28,16 @@ body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--
   var root = document.documentElement, key = "sig-theme", saved = null;
   try { saved = localStorage.getItem(key); } catch (e) {}
   if (saved === "dark" || saved === "light") root.classList.add(saved);
-  document.getElementById("theme-toggle").addEventListener("click", function () {
-    var dark = root.classList.contains("dark") || (!root.classList.contains("light") && matchMedia("(prefers-color-scheme: dark)").matches);
-    var next = dark ? "light" : "dark";
+  var btn = document.getElementById("theme-toggle");
+  function isDark() { return root.classList.contains("dark") || (!root.classList.contains("light") && matchMedia("(prefers-color-scheme: dark)").matches); }
+  function sync() { var d = isDark(); btn.setAttribute("aria-pressed", d ? "true" : "false"); btn.setAttribute("aria-label", d ? "Dark theme on" : "Dark theme off"); }
+  sync();
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", sync);
+  btn.addEventListener("click", function () {
+    var next = isDark() ? "light" : "dark";
     root.classList.remove("dark", "light"); root.classList.add(next);
     try { localStorage.setItem(key, next); } catch (e) {}
+    sync();
   });
 })();
 </script>
