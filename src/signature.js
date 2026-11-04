@@ -50,7 +50,7 @@
       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="800" height="200">' +
       '<title>' + escapeXml(text) + ' — signature, ilghar.studio</title>' +
       '<rect width="800" height="200" fill="' + t.canvas + '"/>' +
-      '<text x="400" y="128" text-anchor="middle" direction="' + direction(text) + '" font-family="Jost, Nunito Sans, sans-serif" font-weight="300" font-size="88" fill="' + t.plum + '" stroke="' + t.rose + '" stroke-width="1.2">' + escapeXml(text) + '</text>' +
+      '<text x="400" y="128" text-anchor="middle" direction="' + direction(text) + '" font-family="Jost, sans-serif" font-weight="300" font-size="88" fill="' + t.plum + '" stroke="' + t.rose + '" stroke-width="1.2">' + escapeXml(text) + '</text>' +
       '<line x1="80" x2="720" y1="160" y2="160" stroke="' + t.mauve + '" stroke-dasharray="2 6"/>' +
       '</svg>\n';
   }
