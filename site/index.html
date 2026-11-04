@@ -7,6 +7,8 @@
 <title>Signature typography — case — ilghar.studio</title>
 <link rel="stylesheet" href="../src/signature.css">
 <style>
+@font-face{font-family:"Vazirmatn";src:url("fonts/vazirmatn-fa.woff2") format("woff2");font-weight:100 900;font-display:swap;unicode-range:U+0600-06FF,U+200C-200D,U+FB50-FDFF,U+FE70-FEFF}
+[lang="fa"]{font-family:"Vazirmatn","Noto Naskh Arabic",sans-serif;letter-spacing:0;text-transform:none}
 :root{--canvas:#f3f1f6;--surface:#fffcfe;--ink:#4a3a5c;--muted:#7a688c;--subtle:#a394ae;--accent:#c97a98;--line:#e4dde8}
 body{margin:0;background:var(--canvas);color:var(--ink);font-family:Jost,"Avenir Next",Helvetica,Arial,sans-serif;line-height:1.6}
 main{max-width:760px;margin:0 auto;padding:64px 24px}
@@ -37,7 +39,7 @@ h2{font-weight:500;font-size:1.25rem;margin-top:48px;border-top:1px solid var(--
 <li><strong>Announcement:</strong> a polite live region reads the settled signature. The SVG is decorative and hidden from screen readers.</li>
 <li><strong>Themes and export:</strong> light and dark follow your system or the toggle (top right), and “Download SVG” saves the finished signature in the current theme.</li>
 </ol>
-<p class="muted">Try “ilghar.studio”, “ایلقار” or “漢字 😀” to see the fallback.</p>
+<p class="muted">Try “ilghar.studio”, “<span lang="fa" dir="rtl">ایلقار</span>” or “漢字 😀” to see the fallback.</p>
 <h2>Rights</h2>
 <p>All code is original. The type is Jost and Nunito Sans (SIL OFL 1.1), loaded by the host site, and no fonts or artwork are bundled.</p>
 <h2>Next</h2>
