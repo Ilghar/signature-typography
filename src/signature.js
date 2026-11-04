@@ -3,7 +3,7 @@
 (function (global) {
   "use strict";
   var NS = "http://www.w3.org/2000/svg";
-  var TOKENS = { canvas: "#f3f1f6", plum: "#4a3a5c", rose: "#c97a98", mauve: "#a394ae" };
+  var TOKENS = { canvas: "#f3f1f6", plum: "#473448", rose: "#856a8e", mauve: "#a6a1a7" };
 
   function graphemes(str) {
     if (global.Intl && Intl.Segmenter) {
@@ -27,7 +27,7 @@
   var SUPPORTED_RTL = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFC]/;
   function direction(str) { return SUPPORTED_RTL.test(str) ? "rtl" : "ltr"; }
 
-  var DARK = { canvas: "#4a434c", plum: "#f4eef3", rose: "#e8a8bc", mauve: "#9a8a9c" };
+  var DARK = { canvas: "#473448", plum: "#f4eef3", rose: "#e8a8bc", mauve: "#a6a1a7" };
 
   function escapeXml(str) {
     return String(str).replace(/[&<>"']/g, function (c) {

@@ -1,10 +1,10 @@
 """Stdlib validator. Each check parses the real source structure instead of looking for loose substrings."""
 import json, pathlib, re, sys
 
-LIGHT = {"canvas": "#f3f1f6", "plum": "#4a3a5c", "rose": "#c97a98", "mauve": "#a394ae",
-         "surface": "#fffcfe", "line": "#e4dde8", "muted": "#7a688c"}
-DARK = {"canvas": "#4a434c", "surface": "#5a535c", "plum": "#f4eef3", "muted": "#cbbdce",
-        "mauve": "#9a8a9c", "rose": "#e8a8bc", "line": "#4a424c"}
+LIGHT = {"canvas": "#f3f1f6", "plum": "#473448", "rose": "#856a8e", "mauve": "#a6a1a7",
+         "surface": "#fffcfe", "line": "#e4dde8", "muted": "#7d5a7c"}
+DARK = {"canvas": "#473448", "surface": "#5a535c", "plum": "#f4eef3", "muted": "#cbbdce",
+        "mauve": "#a6a1a7", "rose": "#e8a8bc", "line": "#4a424c"}
 
 def block(css, selector):
     m = re.search(re.escape(selector) + r"\s*\{([^}]*)\}", css)
