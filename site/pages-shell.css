@@ -119,3 +119,7 @@ section[aria-label="Live function"] .frame iframe,
   section[aria-label="Live function"] .frame iframe,
   .frame.live iframe{min-height:520px}
 }
+
+/* dark hero title: on-dark #d4d2d2; pink initial kept */
+[data-theme=dark] .hero .name, html.dark .hero .name { color: #d4d2d2; }
+[data-theme=dark] .hero .first, html.dark .hero .first { color: #fcb4c4; /* title initial */ }

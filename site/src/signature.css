@@ -134,7 +134,7 @@
   --sig-ink: #d4d2d2;
   --sig-ink-deep: #d4d2d2;
   --sig-label: #a6a1a7;
-  --sig-title: #a6a1a7;
+  --sig-title: #d4d2d2;
   --sig-muted: #a6a1a7;
   --sig-grey2: #a6a1a7;
   --sig-line: #5a515c;
@@ -160,7 +160,7 @@
   --sig-ink: #d4d2d2;
   --sig-ink-deep: #d4d2d2;
   --sig-label: #a6a1a7;
-  --sig-title: #a6a1a7;
+  --sig-title: #d4d2d2;
   --sig-muted: #a6a1a7;
   --sig-grey2: #a6a1a7;
   --sig-line: #5a515c;
@@ -230,7 +230,7 @@
   --sig-ink: #d4d2d2;
   --sig-ink-deep: #d4d2d2;
   --sig-label: #a6a1a7;
-  --sig-title: #a6a1a7;
+  --sig-title: #d4d2d2;
   --sig-muted: #a6a1a7;
   --sig-grey2: #a6a1a7;
   --sig-line: #5a515c;
@@ -263,3 +263,11 @@
   .sig__actions{order:4;position:static;margin-top:4px}
   .sig__live{order:5}
 }
+
+/* dark title on-dark */
+.dark .sig, .sig.sig--dark, .dark .hero .name, [data-theme=dark] .hero .name, html.dark .hero .name {
+  --sig-title: #d4d2d2;
+}
+.dark .hero .name, [data-theme=dark] .hero .name, html.dark .hero .name { color: #d4d2d2; }
+.dark .hero .first, [data-theme=dark] .hero .first, html.dark .hero .first,
+.dark .name .first, [data-theme=dark] .name .first, html.dark .name .first { color: #fcb4c4; /* pink title initial */ }
