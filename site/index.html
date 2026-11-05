@@ -17,17 +17,15 @@
 @font-face{font-family:Jost;font-style:normal;font-weight:400;font-display:swap;src:url("fonts/jost-latin-400-normal.woff2") format("woff2")}
 @font-face{font-family:Jost;font-style:normal;font-weight:500;font-display:swap;src:url("fonts/jost-latin-500-normal.woff2") format("woff2")}
 #demo{width:100%}
-.frame.r1610 .live{padding:16px;min-height:100%}
+.frame.live .live{padding:16px}
 
-/* At ≤600px let the live demo stack so Replay/Download sit below the SVG */
+/* Live field fills the single 12-span frame; soft neumorphic stays on .sig */
+.frame.live .live{height:auto;overflow:visible;display:block}
+.frame.live .live .sig{max-width:none;width:100%;box-sizing:border-box;height:auto}
 @media (max-width:600px){
-  .frame.r1610:has(#demo),.frame.r1610:has(.live){aspect-ratio:auto;min-height:0}
-  .frame.r1610 .live{height:auto!important;min-height:0;overflow:visible;display:block;padding:12px}
-  .frame.r1610 .live .sig{max-width:none;height:auto;padding:12px;gap:10px}
-  .frame.r1610 .live .sig__svg{width:100%;height:auto;max-height:none}
-  .frame.r1610 .live .sig__actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .frame.live .live{padding:12px}
+  .frame.live .live .sig{padding:12px;gap:10px}
 }
-.frame.r1610 .live .sig{max-width:none;width:100%;box-sizing:border-box}
 
 /* hero art sized by pages-shell .hero-art (8:3, no outer frame) */
 </style>
@@ -56,9 +54,33 @@
   <section class="span12" aria-label="Live function">
     <h2>Live function</h2>
     <figure>
-      <div class="frame r1610"><div class="live" id="demo"></div></div>
+      <div class="frame live"><div class="live" id="demo"></div></div>
       <figcaption>Live signature field</figcaption>
     </figure>
+  </section>
+
+  <section class="span12" aria-label="Project material">
+    <h2>Project material</h2>
+    <div class="grid-66">
+      <figure>
+        <div class="frame r1610">
+          <picture>
+            <source media="(prefers-color-scheme: dark)" srcset="hero/f1-dark.webp">
+            <img src="hero/f1-light.webp" width="960" height="600" alt="Signature field tracing ilghar.studio stroke by stroke on light paper.">
+          </picture>
+        </div>
+        <figcaption>Trace settle — light</figcaption>
+      </figure>
+      <figure>
+        <div class="frame r1610">
+          <picture>
+            <source media="(prefers-color-scheme: dark)" srcset="hero/f2-dark.webp">
+            <img src="hero/f2-light.webp" width="960" height="600" alt="Exported signature SVG settled in ink after the draw animation.">
+          </picture>
+        </div>
+        <figcaption>Export match — dark</figcaption>
+      </figure>
+    </div>
   </section>
   <section class="span12" aria-label="Proof">
     <h2>Proof</h2>

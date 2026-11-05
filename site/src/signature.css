@@ -1,6 +1,6 @@
-/* Signature field — PDF palette + transparent neumorphic UI (Hāèl Nov 4).
-   Shadows: light paper+#a6a1a7; dark #2a272d+#473448.
-   Interactive edges: ink / #d4d2d2 hairline. Panel text ≥4.5:1. */
+/* Signature field — soft neumorphic inside ONE 12-span .frame (Hāèl).
+   Shadows: palette only (light paper+#a6a1a7; dark #2a272d+#473448).
+   Interactive edges: 1px #7d5a7c hairline. Panel text measured ≥4.5:1. */
 .sig {
   --sig-paper: #f9fafb;
   --sig-cover: #f9fafb;
@@ -17,7 +17,7 @@
   --sig-accent-fg: #f9fafb;
   --sig-panel: color-mix(in srgb, var(--sig-paper) 72%, transparent);
   --sig-panel-solid: var(--sig-cover);
-  --sig-hair: var(--sig-ink);
+  --sig-hair: #7d5a7c;
   --sig-shadow-hi: var(--sig-paper);
   --sig-shadow-lo: var(--sig-grey2);
   --sig-ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -27,7 +27,9 @@
   gap: 14px;
   padding: 22px;
   border-radius:0;
-  max-width: 800px;
+  max-width: none;
+  width: 100%;
+  box-sizing: border-box;
   background: var(--sig-panel);
   -webkit-backdrop-filter: blur(18px) saturate(1.1);
   backdrop-filter: blur(18px) saturate(1.1);
@@ -124,24 +126,24 @@
   .sig__glyph { animation: none !important; fill-opacity: 1 !important; stroke-dashoffset: 0 !important; }
 }
 
-/* Dark: dual shadow #2a272d + #473448; label #a6a1a7; hairline #d4d2d2 */
+/* Dark: dual shadow #2a272d+#473448; text ≥4.5:1; hairline #7d5a7c */
 .dark .sig,
 .sig.sig--dark {
   --sig-paper: #2a272d;
   --sig-cover: #2a272d;
   --sig-ink: #d4d2d2;
-  --sig-ink-deep: #856a8e;
+  --sig-ink-deep: #d4d2d2;
   --sig-label: #a6a1a7;
-  --sig-title: #856a8e;
+  --sig-title: #a28ea9;
   --sig-muted: #a6a1a7;
   --sig-grey2: #a6a1a7;
   --sig-line: #5a515c;
-  --sig-pink: #856a8e;
-  --sig-rose: #856a8e;
-  --sig-accent: #856a8e;
+  --sig-pink: #a28ea9;
+  --sig-rose: #a28ea9;
+  --sig-accent: #a6a1a7;
   --sig-accent-fg: #2a272d;
   --sig-panel: color-mix(in srgb, #2a272d 70%, transparent);
-  --sig-hair: #d4d2d2;
+  --sig-hair: #7d5a7c;
   --sig-shadow-hi: #473448;
   --sig-shadow-lo: #2a272d;
 }
@@ -153,23 +155,23 @@
 
 @media (prefers-color-scheme: dark) {
   .sig:not(.sig--light) {
-    --sig-paper: #2a272d;
-    --sig-cover: #2a272d;
-    --sig-ink: #d4d2d2;
-    --sig-ink-deep: #856a8e;
-    --sig-label: #a6a1a7;
-    --sig-title: #856a8e;
-    --sig-muted: #a6a1a7;
-    --sig-grey2: #a6a1a7;
-    --sig-line: #5a515c;
-    --sig-pink: #856a8e;
-    --sig-rose: #856a8e;
-    --sig-accent: #856a8e;
-    --sig-accent-fg: #2a272d;
-    --sig-panel: color-mix(in srgb, #2a272d 70%, transparent);
-    --sig-hair: #d4d2d2;
-    --sig-shadow-hi: #473448;
-    --sig-shadow-lo: #2a272d;
+  --sig-paper: #2a272d;
+  --sig-cover: #2a272d;
+  --sig-ink: #d4d2d2;
+  --sig-ink-deep: #d4d2d2;
+  --sig-label: #a6a1a7;
+  --sig-title: #a28ea9;
+  --sig-muted: #a6a1a7;
+  --sig-grey2: #a6a1a7;
+  --sig-line: #5a515c;
+  --sig-pink: #a28ea9;
+  --sig-rose: #a28ea9;
+  --sig-accent: #a6a1a7;
+  --sig-accent-fg: #2a272d;
+  --sig-panel: color-mix(in srgb, #2a272d 70%, transparent);
+  --sig-hair: #7d5a7c;
+  --sig-shadow-hi: #473448;
+  --sig-shadow-lo: #2a272d;
   }
   .sig:not(.sig--light) .sig__replay {
     background: var(--sig-accent);
@@ -189,7 +191,7 @@
     --sig-accent: #775a76;
     --sig-accent-fg: #f9fafb;
     --sig-panel: color-mix(in srgb, #f9fafb 72%, transparent);
-    --sig-hair: #5a515c;
+    --sig-hair: #7d5a7c;
     --sig-shadow-hi: #f9fafb;
     --sig-shadow-lo: #a6a1a7;
   }
@@ -214,7 +216,7 @@
   --sig-accent: #775a76;
   --sig-accent-fg: #f9fafb;
   --sig-panel: color-mix(in srgb, #f9fafb 72%, transparent);
-  --sig-hair: #5a515c;
+  --sig-hair: #7d5a7c;
   --sig-shadow-hi: #f9fafb;
   --sig-shadow-lo: #a6a1a7;
 }
@@ -226,17 +228,18 @@
   --sig-paper: #2a272d;
   --sig-cover: #2a272d;
   --sig-ink: #d4d2d2;
-  --sig-ink-deep: #856a8e;
+  --sig-ink-deep: #d4d2d2;
   --sig-label: #a6a1a7;
-  --sig-title: #856a8e;
+  --sig-title: #a28ea9;
   --sig-muted: #a6a1a7;
   --sig-grey2: #a6a1a7;
   --sig-line: #5a515c;
-  --sig-pink: #856a8e;
-  --sig-accent: #856a8e;
+  --sig-pink: #a28ea9;
+  --sig-rose: #a28ea9;
+  --sig-accent: #a6a1a7;
   --sig-accent-fg: #2a272d;
   --sig-panel: color-mix(in srgb, #2a272d 70%, transparent);
-  --sig-hair: #d4d2d2;
+  --sig-hair: #7d5a7c;
   --sig-shadow-hi: #473448;
   --sig-shadow-lo: #2a272d;
 }
