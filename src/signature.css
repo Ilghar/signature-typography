@@ -250,3 +250,13 @@
   .sig { background: var(--sig-panel-solid); }
   .sig__input { background: var(--sig-paper); }
 }
+
+/* narrow: actions below preview (do not overlay the SVG) */
+@media (max-width:600px){
+  .sig{display:flex;flex-direction:column;gap:10px;max-width:none}
+  .sig__svg{order:3;flex:0 0 auto}
+  .sig__label{order:1}
+  .sig__input{order:2}
+  .sig__actions{order:4;position:static;margin-top:4px}
+  .sig__live{order:5}
+}

@@ -12,6 +12,16 @@
 @font-face{font-family:Jost;font-style:normal;font-weight:500;font-display:swap;src:url("fonts/jost-latin-500-normal.woff2") format("woff2")}
 #demo{width:100%}
 .frame.r1610 .live{padding:16px;min-height:100%}
+
+/* At ≤600px let the live demo stack so Replay/Download sit below the SVG */
+@media (max-width:600px){
+  .frame.r1610:has(#demo),.frame.r1610:has(.live){aspect-ratio:auto;min-height:0}
+  .frame.r1610 .live{height:auto!important;min-height:0;overflow:visible;display:block;padding:12px}
+  .frame.r1610 .live .sig{max-width:none;height:auto;padding:12px;gap:10px}
+  .frame.r1610 .live .sig__svg{width:100%;height:auto;max-height:none}
+  .frame.r1610 .live .sig__actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+}
+.frame.r1610 .live .sig{max-width:none;width:100%;box-sizing:border-box}
 </style>
 </head>
 <body>
@@ -27,6 +37,16 @@
     <p class="sub"><span>Trace</span><span>settle</span><span>export</span></p>
     <span class="status">In progress</span>
   </header>
+
+  <figure class="span12">
+    <div class="frame r83">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="hero/hero-dark.svg">
+        <img src="hero/hero-light.svg" width="1200" height="630" alt="Title card for Signature typography by ilghar.studio.">
+      </picture>
+    </div>
+    <figcaption>Project hero</figcaption>
+  </figure>
   <section class="span12" aria-label="Live function">
     <h2>Live function</h2>
     <figure>
