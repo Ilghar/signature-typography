@@ -1,52 +1,252 @@
-/* ilghar.studio tokens — mirrors Ilghar/ilghar-studio src/styles.css */
+/* Signature field — PDF palette + transparent neumorphic UI (Hāèl Nov 4).
+   Shadows: light paper+#a6a1a7; dark #2a272d+#473448.
+   Interactive edges: ink / #d4d2d2 hairline. Panel text ≥4.5:1. */
 .sig {
-  --sig-canvas: #f3f1f6; --sig-plum: #4a3a5c; --sig-rose: #c97a98; --sig-mauve: #a394ae;
-  --sig-surface: #fffcfe; --sig-line: #e4dde8; --sig-muted: #7a688c; --sig-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  font-family: "Jost", system-ui, sans-serif;
-  background: var(--sig-canvas); color: var(--sig-plum);
-  display: grid; gap: 12px; padding: 24px; border-radius: 16px; max-width: 800px;
+  --sig-paper: #f9fafb;
+  --sig-cover: #f5f7f9;
+  --sig-ink: #5a515c;
+  --sig-ink-deep: #473448;
+  --sig-label: #775a76;
+  --sig-title: #856a8e;
+  --sig-muted: #7d5a7c;
+  --sig-grey2: #a6a1a7;
+  --sig-line: #b8b4b9;
+  --sig-pink: #fcb4c4;
+  --sig-rose: #cf9aae;
+  --sig-accent: #775a76;
+  --sig-accent-fg: #f9fafb;
+  --sig-panel: color-mix(in srgb, var(--sig-paper) 72%, transparent);
+  --sig-panel-solid: var(--sig-cover);
+  --sig-hair: var(--sig-ink);
+  --sig-shadow-hi: var(--sig-paper);
+  --sig-shadow-lo: var(--sig-grey2);
+  --sig-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  font-family: "Jost", "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--sig-ink);
+  display: grid;
+  gap: 14px;
+  padding: 22px;
+  border-radius: 20px;
+  max-width: 800px;
+  background: var(--sig-panel);
+  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  backdrop-filter: blur(18px) saturate(1.1);
+  border: 1px solid var(--sig-hair);
+  box-shadow:
+    8px 8px 20px color-mix(in srgb, var(--sig-shadow-lo) 55%, transparent),
+    -8px -8px 20px color-mix(in srgb, var(--sig-shadow-hi) 90%, transparent),
+    inset 1px 1px 0 color-mix(in srgb, var(--sig-shadow-hi) 70%, transparent),
+    inset -1px -1px 0 color-mix(in srgb, var(--sig-shadow-lo) 35%, transparent);
 }
-.sig__label { font-size: 0.875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sig-plum); }
-.sig__input { font: inherit; font-size: 1.125rem; padding: 10px 14px; border: 1px solid var(--sig-mauve); border-radius: 8px; background: var(--sig-surface); color: var(--sig-plum); }
-.sig__input:focus-visible, .sig__replay:focus-visible { outline: 2px solid var(--sig-rose); outline-offset: 2px; }
+.sig__label {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--sig-label);
+}
+.sig__input {
+  font: inherit;
+  font-size: 1.125rem;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: var(--sig-ink);
+  background: color-mix(in srgb, var(--sig-paper) 55%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--sig-hair);
+  box-shadow:
+    4px 4px 12px color-mix(in srgb, var(--sig-shadow-lo) 45%, transparent),
+    -4px -4px 12px color-mix(in srgb, var(--sig-shadow-hi) 85%, transparent);
+}
+.sig__input:focus-visible,
+.sig__replay:focus-visible {
+  outline: 2px solid var(--sig-pink);
+  outline-offset: 2px;
+}
 .sig__svg { width: 100%; height: auto; display: block; }
-.sig__text { font-family: inherit; font-weight: 300; font-size: 88px; fill: var(--sig-plum); stroke: var(--sig-rose); stroke-width: 1.2; }
-.sig__rule { stroke: var(--sig-mauve); stroke-width: 1.5; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
-.sig__glyph.is-drawing { fill-opacity: 0; stroke-dasharray: 400; stroke-dashoffset: 400; animation: sig-draw 900ms var(--sig-ease) forwards; }
-@keyframes sig-draw { 60% { fill-opacity: 0; stroke-dashoffset: 0; } 100% { fill-opacity: 1; stroke-dashoffset: 0; } }
-.sig__replay { justify-self: start; font: inherit; padding: 8px 18px; border-radius: 999px; border: 0; background: var(--sig-plum); color: var(--sig-canvas); cursor: pointer; }
-.sig__live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-@media (prefers-reduced-motion: reduce) { .sig__glyph { animation: none !important; fill-opacity: 1 !important; stroke-dashoffset: 0 !important; } }
-/* Visible fallback for glyphs outside the mapped repertoire: kept, never dropped, drawn in muted ink with a dashed stroke. */
-.sig__glyph--unmapped { fill: var(--sig-muted); stroke: var(--sig-muted); stroke-dasharray: 3 3; font-family: system-ui, sans-serif; }
-/* Dark theme: mirrors the studio's .dark tokens. Applies under any .dark ancestor, or with .sig--dark / { dark: true }. */
-.dark .sig, .sig.sig--dark {
-  --sig-canvas: #4a434c; --sig-surface: #5a535c; --sig-plum: #f4eef3; --sig-muted: #cbbdce;
-  --sig-mauve: #cbbdce; --sig-rose: #e8a8bc; --sig-line: #cbbdce; --sig-on-accent: #4a434c;
+.sig__text {
+  font-family: inherit;
+  font-weight: 300;
+  font-size: 88px;
+  fill: var(--sig-ink-deep);
+  stroke: var(--sig-pink);
+  stroke-width: 1.2;
 }
-.dark .sig .sig__replay, .sig.sig--dark .sig__replay { background: var(--sig-rose); color: var(--sig-on-accent); }
+.sig__rule {
+  stroke: var(--sig-grey2);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+  vector-effect: non-scaling-stroke;
+}
+.sig__glyph.is-drawing {
+  fill-opacity: 0;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: sig-draw 900ms var(--sig-ease) forwards;
+}
+@keyframes sig-draw {
+  60% { fill-opacity: 0; stroke-dashoffset: 0; }
+  100% { fill-opacity: 1; stroke-dashoffset: 0; }
+}
+.sig__replay {
+  justify-self: start;
+  font: inherit;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--sig-accent-fg);
+  background: var(--sig-accent);
+  border: 1px solid var(--sig-hair);
+  box-shadow:
+    4px 4px 10px color-mix(in srgb, var(--sig-shadow-lo) 50%, transparent),
+    -3px -3px 8px color-mix(in srgb, var(--sig-shadow-hi) 80%, transparent);
+}
+.sig__replay:hover {
+  filter: brightness(1.05);
+}
+.sig__live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
 .sig__actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-/* System preference: dark unless the host forces light (.light ancestor or .sig--light). */
+.sig__glyph--unmapped {
+  fill: var(--sig-muted);
+  stroke: var(--sig-muted);
+  stroke-dasharray: 3 3;
+  font-family: system-ui, sans-serif;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sig__glyph { animation: none !important; fill-opacity: 1 !important; stroke-dashoffset: 0 !important; }
+}
+
+/* Dark: dual shadow #2a272d + #473448; label #a6a1a7; hairline #d4d2d2 */
+.dark .sig,
+.sig.sig--dark {
+  --sig-paper: #2a272d;
+  --sig-cover: #302d34;
+  --sig-ink: #d4d2d2;
+  --sig-ink-deep: #cf9aae;
+  --sig-label: #a6a1a7;
+  --sig-title: #cf9aae;
+  --sig-muted: #a6a1a7;
+  --sig-grey2: #a6a1a7;
+  --sig-line: #57535c;
+  --sig-pink: #cf9aae;
+  --sig-rose: #cf9aae;
+  --sig-accent: #cf9aae;
+  --sig-accent-fg: #2a272d;
+  --sig-panel: color-mix(in srgb, #302d34 70%, transparent);
+  --sig-hair: #d4d2d2;
+  --sig-shadow-hi: #473448;
+  --sig-shadow-lo: #2a272d;
+}
+.dark .sig .sig__replay,
+.sig.sig--dark .sig__replay {
+  background: var(--sig-accent);
+  color: var(--sig-accent-fg);
+}
+
 @media (prefers-color-scheme: dark) {
   .sig:not(.sig--light) {
-    --sig-canvas: #4a434c; --sig-surface: #5a535c; --sig-plum: #f4eef3; --sig-muted: #cbbdce;
-    --sig-mauve: #cbbdce; --sig-rose: #e8a8bc; --sig-line: #cbbdce; --sig-on-accent: #4a434c;
+    --sig-paper: #2a272d;
+    --sig-cover: #302d34;
+    --sig-ink: #d4d2d2;
+    --sig-ink-deep: #cf9aae;
+    --sig-label: #a6a1a7;
+    --sig-title: #cf9aae;
+    --sig-muted: #a6a1a7;
+    --sig-grey2: #a6a1a7;
+    --sig-line: #57535c;
+    --sig-pink: #cf9aae;
+    --sig-rose: #cf9aae;
+    --sig-accent: #cf9aae;
+    --sig-accent-fg: #2a272d;
+    --sig-panel: color-mix(in srgb, #302d34 70%, transparent);
+    --sig-hair: #d4d2d2;
+    --sig-shadow-hi: #473448;
+    --sig-shadow-lo: #2a272d;
   }
-  .sig:not(.sig--light) .sig__replay { background: var(--sig-rose); color: var(--sig-on-accent); }
+  .sig:not(.sig--light) .sig__replay {
+    background: var(--sig-accent);
+    color: var(--sig-accent-fg);
+  }
   .light .sig {
-    --sig-canvas: #f3f1f6; --sig-surface: #fffcfe; --sig-plum: #4a3a5c; --sig-muted: #7a688c;
-    --sig-mauve: #a394ae; --sig-rose: #c97a98; --sig-line: #e4dde8;
+    --sig-paper: #f9fafb;
+    --sig-cover: #f5f7f9;
+    --sig-ink: #5a515c;
+    --sig-ink-deep: #473448;
+    --sig-label: #775a76;
+    --sig-title: #856a8e;
+    --sig-muted: #7d5a7c;
+    --sig-grey2: #a6a1a7;
+    --sig-line: #b8b4b9;
+    --sig-pink: #fcb4c4;
+    --sig-accent: #775a76;
+    --sig-accent-fg: #f9fafb;
+    --sig-panel: color-mix(in srgb, #f9fafb 72%, transparent);
+    --sig-hair: #5a515c;
+    --sig-shadow-hi: #f9fafb;
+    --sig-shadow-lo: #a6a1a7;
   }
-  .light .sig .sig__replay { background: var(--sig-plum); color: var(--sig-canvas); }
+  .light .sig .sig__replay {
+    background: var(--sig-accent);
+    color: var(--sig-accent-fg);
+  }
 }
-/* Explicit { dark: true/false } wins over any .dark/.light ancestor and the system setting (matches the SVG export). */
-.sig.sig--light, .dark .sig.sig--light {
-  --sig-canvas: #f3f1f6; --sig-surface: #fffcfe; --sig-plum: #4a3a5c; --sig-muted: #7a688c;
-  --sig-mauve: #a394ae; --sig-rose: #c97a98; --sig-line: #e4dde8;
+
+.sig.sig--light,
+.dark .sig.sig--light {
+  --sig-paper: #f9fafb;
+  --sig-cover: #f5f7f9;
+  --sig-ink: #5a515c;
+  --sig-ink-deep: #473448;
+  --sig-label: #775a76;
+  --sig-title: #856a8e;
+  --sig-muted: #7d5a7c;
+  --sig-grey2: #a6a1a7;
+  --sig-line: #b8b4b9;
+  --sig-pink: #fcb4c4;
+  --sig-accent: #775a76;
+  --sig-accent-fg: #f9fafb;
+  --sig-panel: color-mix(in srgb, #f9fafb 72%, transparent);
+  --sig-hair: #5a515c;
+  --sig-shadow-hi: #f9fafb;
+  --sig-shadow-lo: #a6a1a7;
 }
-.dark .sig.sig--light .sig__replay { background: var(--sig-plum); color: var(--sig-canvas); }
+.dark .sig.sig--light .sig__replay {
+  background: var(--sig-accent);
+  color: var(--sig-accent-fg);
+}
 .light .sig.sig--dark {
-  --sig-canvas: #4a434c; --sig-surface: #5a535c; --sig-plum: #f4eef3; --sig-muted: #cbbdce;
-  --sig-mauve: #cbbdce; --sig-rose: #e8a8bc; --sig-line: #cbbdce; --sig-on-accent: #4a434c;
+  --sig-paper: #2a272d;
+  --sig-cover: #302d34;
+  --sig-ink: #d4d2d2;
+  --sig-ink-deep: #cf9aae;
+  --sig-label: #a6a1a7;
+  --sig-title: #cf9aae;
+  --sig-muted: #a6a1a7;
+  --sig-grey2: #a6a1a7;
+  --sig-line: #57535c;
+  --sig-pink: #cf9aae;
+  --sig-accent: #cf9aae;
+  --sig-accent-fg: #2a272d;
+  --sig-panel: color-mix(in srgb, #302d34 70%, transparent);
+  --sig-hair: #d4d2d2;
+  --sig-shadow-hi: #473448;
+  --sig-shadow-lo: #2a272d;
 }
-.light .sig.sig--dark .sig__replay { background: var(--sig-rose); color: var(--sig-on-accent); }
+.light .sig.sig--dark .sig__replay {
+  background: var(--sig-accent);
+  color: var(--sig-accent-fg);
+}
+
+/* Fallback when color-mix unsupported: solid cover-paper panel */
+@supports not (background: color-mix(in srgb, white 50%, transparent)) {
+  .sig { background: var(--sig-panel-solid); }
+  .sig__input { background: var(--sig-paper); }
+}

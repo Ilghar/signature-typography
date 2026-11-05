@@ -23,6 +23,26 @@ h2{font-weight:500;font-size:1.25rem;margin-top:48px;border-top:1px solid var(--
 
 .theme-toggle{position:fixed;top:16px;right:16px;font:inherit;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
 .theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Transparent neumorphic case chrome (Hāèl Nov 4) — palette only */
+#demo{
+  margin:1.25rem 0 1.5rem;
+  padding:4px;
+  border-radius:22px;
+}
+.theme-toggle{
+  background:color-mix(in srgb, var(--surface) 70%, transparent);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border:1px solid var(--ink);
+  box-shadow:6px 6px 16px color-mix(in srgb, #a6a1a7 50%, transparent),
+             -6px -6px 16px color-mix(in srgb, var(--canvas) 85%, transparent);
+}
+.dark .theme-toggle{
+  border-color:#d4d2d2;
+  box-shadow:6px 6px 16px color-mix(in srgb, #2a272d 70%, transparent),
+             -6px -6px 16px color-mix(in srgb, #473448 55%, transparent);
+}
+
 .muted{color:var(--ink);opacity:.86} ol li,ul li{margin:6px 0}
 </style>
 </head>
