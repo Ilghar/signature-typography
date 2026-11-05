@@ -17,7 +17,7 @@ class T(unittest.TestCase):
     def test_detects_wrong_token(self):
         self.assertTrue(self.mutate("src/signature.css", "--sig-canvas: #f3f1f6", "--sig-canvas: #ffffff"))
     def test_detects_wrong_dark_token(self):
-        self.assertTrue(self.mutate("src/signature.css", "--sig-canvas: #4a434c", "--sig-canvas: #000000"))
+        self.assertTrue(self.mutate("src/signature.css", "--sig-canvas: #473448", "--sig-canvas: #000000"))
     def test_detects_or_option(self):
         self.assertTrue(self.mutate("src/signature.js", "opts.perGlyphMs ?? 140", "opts.perGlyphMs || 140"))
     def test_detects_innerhtml(self):
