@@ -49,7 +49,7 @@
     "no force push"
   ],
   "findings": [
-    "mauve #a394ae is 2.53:1 on light canvas and #9a8a9c is 2.95:1 on dark canvas, so they are decoration only. The label and fallback glyph moved to plum/muted.",
-    "light muted #7a688c is 4.47:1, just under AA 4.5 for small text, so it is used only for large or secondary text"
+    "mauve #a6a1a7 is 2.53:1 on light canvas and #948e95 is 2.95:1 on dark canvas, so they are decoration only. The label and fallback glyph moved to plum/muted.",
+    "light muted #7d5a7c is 4.47:1, just under AA 4.5 for small text, so it is used only for large or secondary text"
   ]
 }
