@@ -33,7 +33,7 @@
   var SUPPORTED_RTL = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFC]/;
   function direction(str) { return SUPPORTED_RTL.test(str) ? "rtl" : "ltr"; }
 
-  var DARK = { canvas: "#2a272d", plum: "#d4d2d2", rose: "#fcb4c4", mauve: "#a6a1a7" };
+  var DARK = { canvas: "#2a272d", plum: "#d4d2d2", rose: "#856a8e", mauve: "#a6a1a7" };
 
   function escapeXml(str) {
     return String(str).replace(/[&<>"']/g, function (c) {
@@ -50,7 +50,7 @@
       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="800" height="200">' +
       '<title>' + escapeXml(text) + ' — signature, ilghar.studio</title>' +
       '<rect width="800" height="200" fill="' + t.canvas + '"/>' +
-      '<text x="400" y="128" text-anchor="middle" direction="' + direction(text) + '" font-family="Jost, sans-serif" font-weight="300" font-size="88" fill="' + t.plum + '" stroke="' + t.rose + '" stroke-width="1.2">' + escapeXml(text) + '</text>' +
+      '<text x="400" y="128" text-anchor="middle" direction="' + direction(text) + '" font-family="Jost" font-weight="300" font-size="88" fill="' + t.plum + '" stroke="' + t.rose + '" stroke-width="1.2">' + escapeXml(text) + '</text>' +
       '<line x1="80" x2="720" y1="160" y2="160" stroke="' + t.mauve + '" stroke-dasharray="2 6"/>' +
       '</svg>\n';
   }
