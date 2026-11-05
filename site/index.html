@@ -5,7 +5,7 @@
 <title>Signature typography · ilghar.studio</title>
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="pages-shell.css">
-<link rel="stylesheet" href="../src/signature.css">
+<link rel="stylesheet" href="src/signature.css">
 <style>
 @font-face{font-family:Jost;font-style:normal;font-weight:300;font-display:swap;src:url("fonts/jost-latin-300-normal.woff2") format("woff2")}
 @font-face{font-family:Jost;font-style:normal;font-weight:400;font-display:swap;src:url("fonts/jost-latin-400-normal.woff2") format("woff2")}
@@ -56,7 +56,7 @@
 <script>
 (function(){var r=document.documentElement;var b=document.querySelector(".theme-toggle");if(!b)return;var k="ilg-theme";var m=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)");var s=null;try{s=localStorage.getItem(k)}catch(e){}function dark(){var t=r.getAttribute("data-theme");return t?t==="dark":!!(m&&m.matches)}function sync(){var d=dark();b.setAttribute("aria-pressed",String(d));b.textContent=d?"Light mode":"Dark mode";var root=document.querySelector(".ilg-case");if(d){root.setAttribute("data-theme","dark");r.setAttribute("data-theme","dark")}else{root.setAttribute("data-theme","light");r.setAttribute("data-theme","light")}}if(s==="dark"||s==="light"){r.setAttribute("data-theme",s);document.querySelector(".ilg-case").setAttribute("data-theme",s)}sync();if(m&&m.addEventListener)m.addEventListener("change",sync);b.addEventListener("click",function(){var n=dark()?"light":"dark";r.setAttribute("data-theme",n);document.querySelector(".ilg-case").setAttribute("data-theme",n);try{localStorage.setItem(k,n)}catch(e){}sync()})})();
 </script>
-<script src="../src/signature.js"></script>
+<script src="src/signature.js"></script>
 <script>mountSignature(document.getElementById("demo"), { text: "ilghar.studio" });</script>
 </body>
 </html>
