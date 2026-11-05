@@ -1,10 +1,10 @@
 """Stdlib validator. Each check parses the real source structure instead of looking for loose substrings."""
 import json, pathlib, re, sys
 
-LIGHT = {"canvas": "#f3f1f6", "plum": "#473448", "rose": "#856a8e", "mauve": "#a6a1a7",
-         "surface": "#fffcfe", "line": "#e4dde8", "muted": "#7d5a7c"}
-DARK = {"canvas": "#473448", "surface": "#5a535c", "plum": "#f4eef3", "muted": "#cbbdce",
-        "mauve": "#a6a1a7", "rose": "#e8a8bc", "line": "#4a424c"}
+LIGHT = {"canvas": "#f3f1f6", "plum": "#4a3a5c", "rose": "#c97a98", "mauve": "#a394ae",
+         "surface": "#fffcfe", "line": "#e4dde8", "muted": "#7a688c"}
+DARK = {"canvas": "#4a434c", "surface": "#5a535c", "plum": "#f4eef3", "muted": "#cbbdce",
+        "mauve": "#cbbdce", "rose": "#e8a8bc", "line": "#cbbdce"}
 
 def block(css, selector):
     m = re.search(re.escape(selector) + r"\s*\{([^}]*)\}", css)
@@ -26,6 +26,9 @@ def check(root=None):
     for k, v in DARK.items():
         if dark.get(k, "").strip().lower() != v: errs.append(f"dark token --sig-{k} != {v}")
     if not re.search(r"@media\s*\(prefers-color-scheme:\s*dark\)", css): errs.append("no prefers-color-scheme rule")
+    sysdark = props(block(css, ".sig:not(.sig--light)"))
+    for k, v in DARK.items():
+        if sysdark.get(k, "").strip().lower() != v: errs.append(f"system-dark token --sig-{k} != {v}")
     rm = re.search(r"@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[^{]*\{([^}]*)\}", css)
     if not rm or "animation: none" not in rm.group(1): errs.append("reduced-motion rule does not disable animation")
     if "prefersReducedMotion()" not in js: errs.append("JS does not consult reduced-motion")

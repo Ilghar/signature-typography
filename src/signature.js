@@ -3,7 +3,7 @@
 (function (global) {
   "use strict";
   var NS = "http://www.w3.org/2000/svg";
-  var TOKENS = { canvas: "#f3f1f6", plum: "#473448", rose: "#856a8e", mauve: "#a6a1a7" };
+  var TOKENS = { canvas: "#f9fafb", plum: "#473448", rose: "#856a8e", mauve: "#a6a1a7" };
 
   function graphemes(str) {
     if (global.Intl && Intl.Segmenter) {
@@ -19,15 +19,21 @@
   // Bidi embeddings/overrides/isolates, LRM/RLM/ALM and BOM/ZWNBSP are stripped: they can reorder
   // or hide what is displayed versus what is stored. ZWNJ/ZWJ are kept (needed for Persian/emoji).
   var STRIP = /[\u202A-\u202E\u2066-\u2069\u200E\u200F\u061C\uFEFF]/g;
-  function sanitize(str) { return String(str ?? "").replace(STRIP, ""); }
+  // Characters XML 1.0 forbids (C0 controls except tab/LF/CR, DEL, U+FFFE/U+FFFF) would make the export malformed.
+  var CONTROL = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\uFFFE\uFFFF]/g;
+  function sanitize(str) { return String(str ?? "").replace(STRIP, "").replace(CONTROL, ""); }
 
-  function clampGraphemes(str, max) { return graphemes(str).slice(0, max).join(""); }
+  // A negative, NaN or non-numeric max is not a limit (slice(0, -1) would silently drop the last grapheme).
+  function clampGraphemes(str, max) {
+    if (typeof max !== "number" || !(max >= 0)) return str;
+    return graphemes(str).slice(0, max).join("");
+  }
 
   // RTL only for scripts this component supports (Persian/Arabic); everything else uses the default LTR.
   var SUPPORTED_RTL = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFC]/;
   function direction(str) { return SUPPORTED_RTL.test(str) ? "rtl" : "ltr"; }
 
-  var DARK = { canvas: "#473448", plum: "#f4eef3", rose: "#e8a8bc", mauve: "#a6a1a7" };
+  var DARK = { canvas: "#2a272d", plum: "#d4d2d2", rose: "#856a8e", mauve: "#a6a1a7" };
 
   function escapeXml(str) {
     return String(str).replace(/[&<>"']/g, function (c) {
@@ -44,14 +50,17 @@
       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="800" height="200">' +
       '<title>' + escapeXml(text) + ' — signature, ilghar.studio</title>' +
       '<rect width="800" height="200" fill="' + t.canvas + '"/>' +
-      '<text x="400" y="128" text-anchor="middle" direction="' + direction(text) + '" font-family="Jost, Nunito Sans, sans-serif" font-weight="300" font-size="88" fill="' + t.plum + '" stroke="' + t.rose + '" stroke-width="1.2">' + escapeXml(text) + '</text>' +
+      '<text x="400" y="128" text-anchor="middle" direction="' + direction(text) + '" font-family="Jost" font-weight="300" font-size="88" fill="' + t.plum + '" stroke="' + t.rose + '" stroke-width="1.2">' + escapeXml(text) + '</text>' +
       '<line x1="80" x2="720" y1="160" y2="160" stroke="' + t.mauve + '" stroke-dasharray="2 6"/>' +
       '</svg>\n';
   }
 
   function isDark(root) {
-    if (root.classList.contains("sig--light") || (root.closest && root.closest(".light"))) return false;
-    if (root.classList.contains("sig--dark") || (root.closest && root.closest(".dark"))) return true;
+    // Same precedence as the CSS: explicit { dark } option, then a .light/.dark ancestor, then the system.
+    if (root.classList.contains("sig--light")) return false;
+    if (root.classList.contains("sig--dark")) return true;
+    if (root.closest && root.closest(".light")) return false;
+    if (root.closest && root.closest(".dark")) return true;
     return !!(global.matchMedia && global.matchMedia("(prefers-color-scheme: dark)").matches);
   }
 
@@ -159,5 +168,5 @@
   }
 
   global.mountSignature = mountSignature;
-  if (typeof module !== "undefined") module.exports = { mountSignature: mountSignature, graphemes: graphemes, isMapped: isMapped, exportSVG: exportSVG, sanitize: sanitize, clampGraphemes: clampGraphemes, direction: direction, TOKENS: TOKENS, DARK: DARK };
+  if (typeof module !== "undefined") module.exports = { mountSignature: mountSignature, graphemes: graphemes, isMapped: isMapped, exportSVG: exportSVG, sanitize: sanitize, clampGraphemes: clampGraphemes, direction: direction, isDark: isDark, TOKENS: TOKENS, DARK: DARK };
 })(typeof window !== "undefined" ? window : globalThis);
