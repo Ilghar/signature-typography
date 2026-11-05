@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Signature typography · ilghar.studio</title>
+<meta property="og:title" content="Signature typography · ilghar.studio">
+<meta property="og:image" content="og/og-light.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="og/og-light.svg">
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="pages-shell.css">
 <link rel="stylesheet" href="src/signature.css">
@@ -22,6 +28,9 @@
   .frame.r1610 .live .sig__actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
 }
 .frame.r1610 .live .sig{max-width:none;width:100%;box-sizing:border-box}
+
+/* hero picture fill — Proto 8:3, no letterbox */
+.frame.r83 picture,.frame.r83 img{width:100%;height:100%;object-fit:fill;display:block;border-radius:0}
 </style>
 </head>
 <body>
@@ -42,7 +51,7 @@
     <div class="frame r83">
       <picture>
         <source media="(prefers-color-scheme: dark)" srcset="hero/hero-dark.svg">
-        <img src="hero/hero-light.svg" width="1200" height="630" alt="Title card for Signature typography by ilghar.studio.">
+        <img src="hero/hero-light.svg" width="1280" height="480" alt="SIGNATURE / TYPOGRAPHY — An animated signature you can actually type into." style="width:100%;height:100%;object-fit:fill;display:block;border-radius:0;">
       </picture>
     </div>
     <figcaption>Project hero</figcaption>
