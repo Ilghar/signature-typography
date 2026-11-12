@@ -2,7 +2,7 @@
   <a href="https://ilghar.github.io/signature-typography/">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="docs/hero/hero-dark.webp">
-      <img src="docs/hero/hero-light.webp" width="100%" alt="The live signature field after typing ilghar.studio, with every letter traced and settled in ink, and Replay and Download SVG controls.">
+      <img src="docs/hero/hero-light.webp" width="100%" alt="The live signature mid-stroke: the first letters of ilghar.studio drawing as SVG strokes on the writing line.">
     </picture>
   </a>
 </p>
